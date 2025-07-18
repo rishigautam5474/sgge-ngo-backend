@@ -20,7 +20,7 @@ MongoDbConnection(process.env.MONGOOSE_URI)
   });
 
 app.use(cors({
-  origin: "http://localhost:5173"
+  origin: "https://sggengo-live.onrender.com"
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
