@@ -1,13 +1,17 @@
 import Gallery from "../models/gallery.model.js"
 
 const galleryController = async (req, res) => {
-    const gallery = await Gallery.find({});
+try {
+      const gallery = await Gallery.find({});
 
     if(gallery.length < 0) {
       return res.status(200).json({error: false, success: true, message: "Gallery not found"})
     }
     
     return res.status(200).json({error: false, success: true, message: "Gallery find", gallery})
+} catch(error) {
+  return res.status(500).json({error: true, success: false, message: "Internal Server Error"});
+}
 }
 
 
@@ -46,4 +50,22 @@ const addGallery = async (req, res) => {
   }
 };
 
-export {galleryController, addGallery}
+const deleteMedia = async (req, res) => {
+    const {id} = req?.params
+    try {
+
+      const deleteGallery = await Gallery.findByIdAndDelete(id);
+
+      if(!deleteGallery) {
+        return res.status(404).json({error: true, success: false, message: "Media not found"});
+      }
+
+      return res.status(200).json({error: false, success: true, message: "Media deleted successfully"})
+      
+    } catch(error) {
+      // console.log(error,"++++++++++++")
+        return res.status(500).json({error: true, success: false, message: "Internal Server Error"});
+    }
+}
+
+export {galleryController, addGallery, deleteMedia}
