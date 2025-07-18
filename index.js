@@ -8,7 +8,7 @@ import authRouter from "./routes/auth.routes.js";
 import galleryRouter from "./routes/gallery.routes.js";
 const app = express();
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 MongoDbConnection(process.env.MONGOOSE_URI)
   .then(() => {

@@ -1,5 +1,4 @@
 import Gallery from "../models/gallery.model.js"
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const galleryController = async (req, res) => {
     const gallery = await Gallery.find({});
@@ -11,32 +10,40 @@ const galleryController = async (req, res) => {
     return res.status(200).json({error: false, success: true, message: "Gallery find", gallery})
 }
 
+
 const addGallery = async (req, res) => {
-    const {mediaType} = req?.body;
-    const imageLocalPath = req?.files?.mediaUrl[0]?.path;
+  try {
+    const { mediaType } = req.body;
 
-    if(!imageLocalPath) {
-        return res.status(400).json({error: true, success: false, message: "Image file is required"})
+    if (!req?.files || !req?.files?.mediaUrl[0]?.path) {
+      return res.status(400).json({
+        error: true,
+        success: false,
+        message: "Image file is required",
+      });
     }
 
-    const imageCloudinary = await uploadOnCloudinary(imageLocalPath);
-
-    if(!imageCloudinary) {
-        return res.status(400).json({error: true, success: false, message: "Image file is required"})
-    }
+    const imageUrl = req?.files?.mediaUrl[0]?.path; 
 
     const gallery = await Gallery.create({
-    mediaUrl: imageCloudinary.url,
-    mediaType
-  });
+      mediaUrl: imageUrl,
+      mediaType,
+    });
 
     return res.status(201).json({
-    error: false,
-    success: true,
-    message: "Successfully picture is added",
-    gallery,
-  });
-
-}
+      error: false,
+      success: true,
+      message: "Successfully picture is added",
+      gallery,
+    });
+  } catch (error) {
+    console.error("Add Gallery Error:", error.message);
+    return res.status(500).json({
+      error: true,
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
 
 export {galleryController, addGallery}
