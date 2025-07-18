@@ -41,7 +41,6 @@ const addGallery = async (req, res) => {
       gallery,
     });
   } catch (error) {
-    // console.error("Add Gallery Error:", error.message);
     return res.status(500).json({
       error: true,
       success: false,
