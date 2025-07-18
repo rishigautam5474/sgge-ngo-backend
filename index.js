@@ -9,6 +9,7 @@ import galleryRouter from "./routes/gallery.routes.js";
 const app = express();
 
 const PORT = process.env.PORT || 4000;
+// console.log(process.env.PORT)
 
 MongoDbConnection(process.env.MONGOOSE_URI)
   .then(() => {

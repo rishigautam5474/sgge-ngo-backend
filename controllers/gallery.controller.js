@@ -3,10 +3,10 @@ import Gallery from "../models/gallery.model.js"
 const galleryController = async (req, res) => {
     const gallery = await Gallery.find({});
 
-    if(!gallery) {
-        return res.status(404).json({error: true, success: false, message: "Gallery not found"})
+    if(gallery.length < 0) {
+      return res.status(200).json({error: false, success: true, message: "Gallery not found"})
     }
-
+    
     return res.status(200).json({error: false, success: true, message: "Gallery find", gallery})
 }
 
