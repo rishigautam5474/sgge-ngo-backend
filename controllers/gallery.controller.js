@@ -10,7 +10,7 @@ try {
     
     return res.status(200).json({error: false, success: true, message: "Gallery find", gallery})
 } catch(error) {
-  return res.status(500).json({error: true, success: false, message: "Internal Server Error"});
+  return res.status(500).json({error: true, success: false, message: "Something went wrong"});
 }
 }
 
@@ -41,7 +41,7 @@ const addGallery = async (req, res) => {
       gallery,
     });
   } catch (error) {
-    console.error("Add Gallery Error:", error.message);
+    // console.error("Add Gallery Error:", error.message);
     return res.status(500).json({
       error: true,
       success: false,
@@ -53,7 +53,6 @@ const addGallery = async (req, res) => {
 const deleteMedia = async (req, res) => {
     const {id} = req?.params
     try {
-
       const deleteGallery = await Gallery.findByIdAndDelete(id);
 
       if(!deleteGallery) {
@@ -63,8 +62,7 @@ const deleteMedia = async (req, res) => {
       return res.status(200).json({error: false, success: true, message: "Media deleted successfully"})
       
     } catch(error) {
-      // console.log(error,"++++++++++++")
-        return res.status(500).json({error: true, success: false, message: "Internal Server Error"});
+        return res.status(500).json({error: true, success: false, message: "Something went wrong"});
     }
 }
 
