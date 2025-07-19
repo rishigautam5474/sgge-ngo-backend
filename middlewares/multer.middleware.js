@@ -16,7 +16,7 @@ const storage = new CloudinaryStorage({
     return {
       folder: "gallery",
       resource_type,
-      allowed_formats: ["jpg", "jpeg", "png", "mp4", "mov", "avi"],
+      allowed_formats: ["jpg", "jpeg", "png", "mp4", "mov", "avi", "webp"],
       transformation: isImage
         ? [{ width: 800, height: 800, crop: "limit" }]
         : undefined,
