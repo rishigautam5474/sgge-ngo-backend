@@ -23,7 +23,8 @@ MongoDbConnection(process.env.MONGOOSE_URI)
 
 // Middlewares
 app.use(cors({
-  origin: process.env.CORS_ORIGIN
+  origin: process.env.CORS_ORIGIN,
+  credentials: true 
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
