@@ -1,36 +1,33 @@
-import Gallery from "../models/gallery.model.js"
+import Gallery from "../models/gallery.model.js";
+import ErrorResponse from "../utils/errorHandler.js";
 
-const galleryController = async (req, res) => {
-try {
-      const gallery = await Gallery.find({});
+const getAllMedia = async (req, res, next) => {
+  const media = await Gallery.find({});
 
-    if(gallery.length < 0) {
-      return res.status(200).json({error: false, success: true, message: "Gallery not found"})
-    }
-    
-    return res.status(200).json({error: false, success: true, message: "Gallery find", gallery})
-} catch(error) {
-  return res.status(500).json({error: true, success: false, message: "Something went wrong"});
-}
-}
+  if (media.length < 0) {
+    return next(new ErrorResponse(200, "Media not found"));
+  }
 
+  return res
+    .status(200)
+    .json({ error: false, success: true, message: "Gallery find", media });
+};
 
-const addGallery = async (req, res) => {
-  try {
+const addMedia = async (req, res, next) => {
     const { mediaType } = req.body;
 
     if (!req?.files || !req?.files?.mediaUrl[0]?.path) {
-      return res.status(400).json({
-        error: true,
-        success: false,
-        message: "Image file is required",
-      });
+      return next(new ErrorResponse(400, "Image file is required"))
     }
 
-    const imageUrl = req?.files?.mediaUrl[0]?.path; 
+    const mediaFile = req?.files?.mediaUrl[0]?.path;
+
+    if(!mediaFile) {
+      return next(new ErrorResponse(400, "Image file is required"))
+    }
 
     const gallery = await Gallery.create({
-      mediaUrl: imageUrl,
+      mediaUrl: mediaFile,
       mediaType,
     });
 
@@ -40,29 +37,24 @@ const addGallery = async (req, res) => {
       message: "Successfully picture is added",
       gallery,
     });
-  } catch (error) {
-    return res.status(500).json({
-      error: true,
-      success: false,
-      message: "Something went wrong",
-    });
-  }
 };
 
-const deleteMedia = async (req, res) => {
-    const {id} = req?.params
-    try {
-      const deleteGallery = await Gallery.findByIdAndDelete(id);
+const deleteMedia = async (req, res, next) => {
+  const { id } = req?.params;
 
-      if(!deleteGallery) {
-        return res.status(404).json({error: true, success: false, message: "Media not found"});
-      }
+    const deleteGallery = await Gallery.findByIdAndDelete(id);
 
-      return res.status(200).json({error: false, success: true, message: "Media deleted successfully"})
-      
-    } catch(error) {
-        return res.status(500).json({error: true, success: false, message: "Something went wrong"});
+    if (!deleteGallery) {
+      return next(new ErrorResponse(404, "Media not found"))
     }
-}
 
-export {galleryController, addGallery, deleteMedia}
+    return res
+      .status(200)
+      .json({
+        error: false,
+        success: true,
+        message: "Media deleted successfully",
+      });
+};
+
+export { getAllMedia, addMedia, deleteMedia };
