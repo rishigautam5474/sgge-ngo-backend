@@ -5,7 +5,7 @@ import MongoDbConnection from "./db/connection.js";
 import cors from "cors";
 import morgan from "morgan";
 import authRouter from "./routes/auth.routes.js";
-import galleryRouter from "./routes/media.routes.js";
+import mediaRouter from "./routes/media.routes.js";
 // import cookieParser from "cookie-parser";
 const app = express();
 
@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/gallery", galleryRouter);
+app.use("/api/v1/gallery", mediaRouter);
 
 // Error Handler
 app.use((err, req, res, next) => {
