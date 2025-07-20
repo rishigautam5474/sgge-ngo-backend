@@ -3,11 +3,11 @@ import jwt from "jsonwebtoken";
 const authMiddleware =
   (role = []) =>
   async (req, res, next) => {
-    // const header = await req?.header("authorization");
+    const header = await req?.header("authorization");
     // console.log(header,"header+++++++++")
-    // const token = header?.split(" ")[1];
-    const token = req?.cookies?.token;
-    console.log(token, "token+++++++++++++");
+    const token = header?.split(" ")[1];
+    // const token = req?.cookies?.token;
+    // console.log(token, "token+++++++++++++");
 
     if (!token) {
         return res.status(401).json({error: true, success: false, message: "User unauthorized"})
