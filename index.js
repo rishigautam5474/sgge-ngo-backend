@@ -5,7 +5,7 @@ import MongoDbConnection from "./db/connection.js";
 import cors from "cors";
 import morgan from "morgan";
 import authRouter from "./routes/auth.routes.js";
-import galleryRouter from "./routes/gallery.routes.js";
+import galleryRouter from "./routes/media.routes.js";
 // import cookieParser from "cookie-parser";
 const app = express();
 
@@ -23,7 +23,7 @@ MongoDbConnection(process.env.MONGOOSE_URI)
 
 // Middlewares
 app.use(cors({
-  origin: "https://sggengo-live.onrender.com"
+  origin: "http://localhost:5173"
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

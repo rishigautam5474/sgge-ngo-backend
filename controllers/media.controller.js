@@ -4,8 +4,8 @@ import ErrorResponse from "../utils/errorHandler.js";
 const getAllMedia = async (req, res, next) => {
   const media = await Gallery.find({});
 
-  if (media.length < 0) {
-    return next(new ErrorResponse(200, "Media not found"));
+  if (!media) {
+    return next(new ErrorResponse(404, "Media not found"));
   }
 
   return res
