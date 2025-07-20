@@ -6,7 +6,7 @@ import cors from "cors";
 import morgan from "morgan";
 import authRouter from "./routes/auth.routes.js";
 import mediaRouter from "./routes/media.routes.js";
-// import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 const app = express();
 
 // PORT
@@ -27,7 +27,7 @@ app.use(cors({
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(morgan('tiny'))
 
 // Routers
